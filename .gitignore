@@ -1,0 +1,9 @@
+@"
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+*.DotSettings*
+"@ | Out-File -FilePath .gitignore -Encoding utf8 -Append
