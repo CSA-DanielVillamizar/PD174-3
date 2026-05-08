@@ -36,6 +36,29 @@ Sigue este paso a paso para agregar tus secretos en GitHub:
 
 Una vez guardados, verás ambos listados en la pestaña Actions. Cuando hagas tu próximo `git push`, el archivo `.github/workflows/deploy-order-api.yml` leerá estos secretos automáticamente y podrá construir la imagen en la nube.
 
+Además, todos los flujos de trabajo (*Workflows*) están configurados con el disparador `workflow_dispatch`, lo que significa que puedes forzar su ejecución manual en cualquier momento.
+
+### 🚀 ¿Cómo disparar los despliegues manualmente en GitHub?
+
+1. En tu repositorio de GitHub, haz clic en la pestaña **Actions**.
+2. En el menú de la izquierda, bajo la sección **Workflows**, selecciona el microservicio que quieres desplegar (Ej: *Deploy Inventory API to Docker Hub*).
+3. A la derecha, verás un recuadro con el mensaje *"This workflow has a workflow_dispatch event trigger"*.
+4. Haz clic en el botón desplegable **Run workflow**.
+5. Asegúrate de tener seleccionada la rama `main` y presiona el botón verde **Run workflow**.
+
+Y si tienes instalada la herramienta de línea de comandos de GitHub (`gh`) en tu terminal, puedes lanzar las ejecuciones mágicamente con los siguientes comandos:
+
+```bash
+# Para desplegar el Gateway
+gh workflow run "Deploy Gateway API to Docker Hub" --ref main
+
+# Para desplegar el Inventario
+gh workflow run "Deploy Inventory API to Docker Hub" --ref main
+
+# Para desplegar las Órdenes
+gh workflow run "Deploy Order API to Docker Hub" --ref main
+```
+
 ---
 
 ## 1. Requisitos
