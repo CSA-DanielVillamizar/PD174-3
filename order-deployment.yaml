@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment # Definimos que esto es un despliegue gestionado por Kubernetes
+metadata:
+  name: order-api-deployment # Nombre del despliegue
+spec:
+    replicas: 3 # Alta disponibilidad: Número de réplicas del pod. Siempre es recomendable tener al menos 3 para producción.
+    selector:
+      matchLabels:
+        app: order-api # Etiqueta para identificar los pods que pertenecen a este despliegue
+    template:
+      metadata:
+        labels:
+          app: order-api
+      spec:
+        containers:
+          - name: order-api
+            # Usamos la imagen que creamos con GitHub Actioss y subimos a Docker Hub. Asegúrate de reemplazar "your-dockerhub-username" por tu nombre de usuario real en Docker Hub.
+            image: danielvillamizara/itm-order-api:latest # Tu imagen personalizada
+            ports:
+              - containerPort: 8080 # Puerto en el que la aplicación escucha dentro del contenedor
+            env:
+              - name: ASPNETCORE_ENVIRONMENT
+                value: "Development"
+  # Health checks (liveness y readiness) k8s usará para asegurar que Kubernetes pueda gestionar correctamente el estado de los pods
+            livenessProbe:
+              httpGet:
+                path: /health
+                port: 8080
+              initialDelaySeconds: 5
+              periodSeconds: 5
