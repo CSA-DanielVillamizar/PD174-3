@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
     paths:
       - 'Order.Api/**'
+  workflow_dispatch:
 
 jobs:
   build-and-push:
