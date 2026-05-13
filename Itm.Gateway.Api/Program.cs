@@ -11,14 +11,13 @@ builder.Services.AddReverseProxy()
 builder.Services.AddHealthChecksUI(setupSettings: setup =>
 {
     // Aquí matriculamos los pacientes, es decir, los endpoints de salud de cada servicio que queremos monitorear
-    setup.AddHealthCheckEndpoint("Inventory API", "http://localhost:5293/health");
-    setup.AddHealthCheckEndpoint("Orders API (con CloudAMQP)", "http://localhost:5027/health");
-    setup.AddHealthCheckEndpoint("Prices API", "http://localhost:5012/health");
-    setup.AddHealthCheckEndpoint("Notifications API", "http://localhost:5089/health");
-    setup.AddHealthCheckEndpoint("Product API", "http://localhost:5298/health");
+    setup.AddHealthCheckEndpoint("Inventory API", "http://inventory-api-service:80/health");
+    setup.AddHealthCheckEndpoint("Orders API", "http://order-service:8080/health");
+    setup.AddHealthCheckEndpoint("Product API", "http://product-api-service:80/health");
+    setup.AddHealthCheckEndpoint("Notifications API", "http://notification-service:80/health");
 
 })
-    .AddInMemoryStorage(); // Guarda el histórico de salud en memoria (no recomendado para producción, pero suficiente para este ejemplo)
+    .AddInMemoryStorage(); // Guarda el histórico de salud en memoria
 
 
 var app = builder.Build();

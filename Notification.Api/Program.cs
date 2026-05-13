@@ -19,7 +19,7 @@ builder.Services.AddMassTransit(x =>
     x.UsingRabbitMq((context, cfg) =>
     {
         // En un trabajo real, esta URL debe venir de configuración segura (KeyVault / env vars)
-        cfg.Host("amqps://miqffttk:1pscfTN1wGyzJHwe8BTEFMyocp9U-bEp@moose.rmq.cloudamqp.com/miqffttk");
+        cfg.Host("amqp://rabbitmq-service:5672");
 
         // Configuramos el nombre de la "fila" donde el obrero va a escuchar
         cfg.ReceiveEndpoint("notificaciones-cola", e =>

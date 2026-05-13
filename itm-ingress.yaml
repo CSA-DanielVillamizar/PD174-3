@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: itm-tickets-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false" # Truco para entornos locales: permitir tráfico HTTP 
+    # Quitamos el rewrite-target porque C# lo recibe derecho
+spec:
+  ingressClassName: nginx # Le decimos que el vigilante es NGINX
+  tls: # Sección de seguridad (candado)
+  - hosts:
+    - api.itm-tickets.com
+    secretName: itm-tickets-tls-secret # Aquí se guardará la llave privada cifrada
+  rules:
+  - host: api.itm-tickets.com # Dominio personalizado para acceder a la API de tickets
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: gateway-api-service # Nombre del servicio que expone el API Gateway
+            port:
+              number: 80
+      - path: /orders
+        pathType: Prefix
+        backend:
+          service:
+            name: order-service # Nombre del servicio que expone el API de órdenes
+            port:
+              number: 8080
+      - path: /notifications
+        pathType: Prefix
+        backend:
+          service:
+            name: notification-service # Nombre del servicio que expone el API de notificaciones
+            port:
+              number: 80
