@@ -17,19 +17,19 @@ builder.Services.AddHealthChecks();
 // ARQUITECTURA: Registramos los HttpClientFactory
 builder.Services.AddHttpClient("InventoryClient", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5293");
+    client.BaseAddress = new Uri("http://inventory-api-service");
     client.Timeout = TimeSpan.FromSeconds(5);
 });
 
 builder.Services.AddHttpClient("PriceClient", client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5012");
+    client.BaseAddress = new Uri("http://pricing-service");
 });
 
 // REGISTRO DE ARQUITECTURA: CACHÉ DISTRIBUIDA (NIVEL 5)
 builder.Services.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = "localhost:6379";
+    options.Configuration = "redis-service:6379";
     options.InstanceName = "ItmTickets_";
 });
 

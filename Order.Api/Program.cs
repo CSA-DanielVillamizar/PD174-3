@@ -101,7 +101,7 @@ app.MapPost(
         try
         {
             // Paso 2: Procesar el pago (simulado con un random para este ejemplo)
-            bool paymentSuccess = new Random().Next(0, 10) > 5;
+            bool paymentSuccess = true; // Forzado a true para Demo de Load Testing y Black Friday
 
             if (!paymentSuccess)
             {

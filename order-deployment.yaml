@@ -15,9 +15,13 @@ spec:
         containers:
           - name: order-api
             # Usamos la imagen que creamos con GitHub Actioss y subimos a Docker Hub. Asegúrate de reemplazar "your-dockerhub-username" por tu nombre de usuario real en Docker Hub.
-            image: danielvillamizara/itm-order-api:latest # Tu imagen personalizada
+            image: ds-itm-order-api:latest # Tu imagen personalizada
+            imagePullPolicy: IfNotPresent
             ports:
               - containerPort: 8080 # Puerto en el que la aplicación escucha dentro del contenedor
+            resources:
+              requests:
+                cpu: "100m"
             env:
               - name: ASPNETCORE_ENVIRONMENT
                 value: "Development"
@@ -26,5 +30,5 @@ spec:
               httpGet:
                 path: /health
                 port: 8080
-              initialDelaySeconds: 5
-              periodSeconds: 5
+              initialDelaySeconds: 15
+              periodSeconds: 10

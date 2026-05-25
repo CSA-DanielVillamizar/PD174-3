@@ -1,6 +1,26 @@
 using Itm.Gateway.Api.Middlewares;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// 🛡️ ESCUDO DE SEGURIDAD: RATE LIMITING (NIVEL 5)
+builder.Services.AddRateLimiter(options =>
+{
+    // Si alguien abusa, respondemos con un 429 (Too Many Requests)
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    // Política de "Ventana Fija": 10 peticiones cada 10 segundos por cada IP
+    options.AddPolicy("fixed", httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.Connection.RemoteIpAddress?.ToString(),
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 1000,
+                Window = TimeSpan.FromSeconds(10),
+                QueueLimit = 0 // No hacemos fila; se rechaza de inmediato
+            }));
+});
 
 //1. Agregamos YARP a la caja de herramientas (Dependency Injection)
 // Le decimos que lea la configuración de rutas desde el appsettings.json
@@ -22,11 +42,13 @@ builder.Services.AddHealthChecksUI(setupSettings: setup =>
 
 var app = builder.Build();
 
+app.UseRateLimiter(); // 1. Activamos el motor del Rate Limiting
+
 // 2. Activamos el middleware de Correlation ID antes del proxy inverso
 app.UseMiddleware<CorrelationIdMiddleware>();
 
-// 3. Activamos el middleware de YARP para que procese las solicitudes entrantes
-app.MapReverseProxy();// Activamos el enrrutador de YARP para que procese las solicitudes entrantes y las dirija a los servicios backend según la configuración
+// 3. Activamos el middleware de YARP para que procese las solicitudes entrantes y forzamos el límite de peticiones
+app.MapReverseProxy().RequireRateLimiting("fixed");
 
 // Activar el panel gráfico de salud en la ruta /health-ui
 

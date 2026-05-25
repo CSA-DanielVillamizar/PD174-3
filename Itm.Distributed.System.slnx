@@ -2,6 +2,7 @@
   <Folder Name="/Solution Items/">
     <File Path="itm-ingress.yaml" />
     <File Path="order-service.yaml" />
+    <File Path="test-load.js" />
   </Folder>
   <Project Path="Itm.Gateway.Api/Itm.Gateway.Api.csproj" Id="0a5a8998-74eb-4d39-8756-91899e8e4d8f" />
   <Project Path="Itm.Inventory.Api/Itm.Inventory.Api.csproj" />
@@ -11,6 +12,7 @@
   <Project Path="Itm.Store.Mobile/Itm.Store.Mobile.csproj" Id="8c3993a2-88d6-40fd-8fa2-defb64f09875">
     <Deploy Solution="Debug|*" />
   </Project>
+  <Project Path="Itm.Tickets.Fuctions/Itm.Tickets.Fuctions.csproj" Id="4d9a6e4c-e260-4a91-9c32-ba7ac2907831" />
   <Project Path="Notification.Api/Itm.Notification.Api.csproj" Id="8670398f-2f98-4083-95b2-cbc81ff14584" />
   <Project Path="Order.Api/Order.Api.csproj" />
 </Solution>

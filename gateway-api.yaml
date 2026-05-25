@@ -13,11 +13,11 @@ spec:
         app: gateway-api
     spec:
       containers:
-        - name: gateway-api
-          image: ds-itm-gateway-api:latest
-          imagePullPolicy: Never
-          ports:
-            - containerPort: 8080
+      - name: gateway-api
+        image: ds-itm-gateway-api:v4
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service

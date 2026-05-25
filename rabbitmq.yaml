@@ -18,6 +18,9 @@ spec:
           ports:
             - containerPort: 5672
             - containerPort: 15672
+          resources: 
+            requests:
+              cpu: "100m"
 ---
 apiVersion: v1
 kind: Service

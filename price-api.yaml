@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: product-api-deployment
+  name: pricing-api-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: product-api
+      app: pricing-api
   template:
     metadata:
       labels:
-        app: product-api
+        app: pricing-api
     spec:
       containers:
-      - name: product-api
-        image: ds-itm-product-api:v3
+      - name: pricing-api
+        image: ds-itm-price-api:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
@@ -25,10 +25,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: product-api-service
+  name: pricing-service
 spec:
   selector:
-    app: product-api
+    app: pricing-api
   ports:
     - protocol: TCP
       port: 80
