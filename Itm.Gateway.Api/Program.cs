@@ -50,6 +50,9 @@ app.UseMiddleware<CorrelationIdMiddleware>();
 // 3. Activamos el middleware de YARP para que procese las solicitudes entrantes y forzamos el límite de peticiones
 app.MapReverseProxy().RequireRateLimiting("fixed");
 
+// Redireccionar al monitor si entra a la ruta raíz (soluciona el 404 local)
+app.MapGet("/", () => Results.Redirect("/monitor"));
+
 // Activar el panel gráfico de salud en la ruta /health-ui
 
 app.MapHealthChecksUI(options =>
