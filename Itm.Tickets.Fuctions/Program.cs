@@ -7,10 +7,8 @@ namespace Itm.Tickets.Fuctions_
     {
         static void Main(string[] args)
         {
-            FunctionsDebugger.Enable();
-
             var host = new HostBuilder()
-                .ConfigureFunctionsWorkerDefaults()
+                .ConfigureFunctionsWebApplication()
                 .Build();
 
             host.Run();
